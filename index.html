@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pardus PDF Editor (ParPDF)</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 960px;
+            margin: 20px auto;
+            padding: 0 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        header {
+            background-color: #5a8aad; /* A shade inspired by Pardus */
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        header p {
+            margin-top: 5px;
+            font-size: 1.1em;
+        }
+        nav { /* Optional simple nav */
+            text-align: center;
+            padding: 10px 0;
+            background: #e9ecef;
+        }
+        nav a {
+            text-decoration: none;
+            color: #333;
+            padding: 5px 15px;
+            margin: 0 5px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        nav a:hover, nav a.active {
+            background-color: #d0d5db;
+        }
+        section {
+            padding: 25px 20px;
+            border-bottom: 1px solid #eee;
+        }
+        section:last-of-type {
+            border-bottom: none;
+        }
+        h2 {
+            color: #5a8aad;
+            margin-top: 0;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        .features-list li {
+            margin-bottom: 10px;
+            list-style: none; /* Remove default bullets */
+            padding-left: 20px;
+            position: relative;
+        }
+        .features-list li::before {
+            content: '✔'; /* Custom bullet */
+            position: absolute;
+            left: 0;
+            color: #28a745; /* Green checkmark */
+        }
+        .screenshot {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .screenshot img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            border-radius: 4px;
+        }
+        .download-area {
+             text-align: center;
+        }
+        .download-button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 25px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 10px 5px;
+        }
+        .download-button:hover {
+            background-color: #45a049;
+        }
+        .github-button {
+            background-color: #333;
+        }
+         .github-button:hover {
+            background-color: #555;
+        }
+        .dependency-notes, .installation-notes {
+            background-color: #fffbeb;
+            border: 1px solid #ffe58f;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+        pre {
+            background-color: #eef;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto; /* Handle long lines */
+        }
+        code {
+            font-family: "Courier New", Courier, monospace;
+            background-color: #eee; /* Simple background for inline code */
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        pre code {
+             background-color: transparent; /* Don't double-background */
+             padding: 0;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Pardus PDF Editor (ParPDF)</h1>
+            <p>Simple PDF Viewing and Text Editing for Linux</p>
+        </header>
+
+        <nav>
+             <a href="#about">About</a>
+             <a href="#features">Features</a>
+             <a href="#screenshot-sec">Screenshot</a>
+             <a href="#download">Download</a>
+             <a href="#run">How to Run</a>
+        </nav>
+
+        <section id="about">
+            <h2>About ParPDF</h2>
+            <p>
+                Pardus PDF Editor is a straightforward desktop application built with GTK4 and Adwaita library, designed primarily for Linux distributions like Pardus, Ubuntu, Debian, and others.
+            </p>
+            <p>
+                It allows you to open and view PDF documents, select existing text blocks, modify their content, and even add new text elements to the page. While not a full-featured PDF editor, it focuses on making basic text alterations simple and accessible.
+            </p>
+        </section>
+
+        <section id="features">
+            <h2>Key Features</h2>
+            <ul class="features-list">
+                <li>View PDF documents page by page.</li>
+                <li>Thumbnail sidebar for easy page navigation.</li>
+                <li>Select and edit existing text blocks directly on the page.</li>
+                <li>Add new text blocks anywhere on the page.</li>
+                <li>Control font size and color for edited/added text.</li>
+                <li>Save changes back to the PDF (incrementally or as a new file).</li>
+                <li>Export document content as plain text (.txt).</li>
+                <li>Export document as DOCX (requires LibreOffice installed).</li>
+                <li>Modern GTK4/Libadwaita interface.</li>
+            </ul>
+        </section>
+
+        <section id="screenshot-sec">
+             <h2>Screenshot</h2>
+             <p>See ParPDF in action:</p>
+             <div class="screenshot">
+                <!-- Replace 'parpdf_screenshot.png' with the actual path/URL to your screenshot -->
+                <img src="parpdf_screenshot.png" alt="Pardus PDF Editor Screenshot">
+                <p><small><em>(Replace this placeholder image with an actual screenshot)</em></small></p>
+            </div>
+        </section>
+
+        <section id="download">
+            <h2>Download Source Code</h2>
+            <p>
+                Download the latest source code archive. You will need Python 3 and several dependencies installed to run it (see below).
+            </p>
+            <div class="download-area">
+                 <!-- Link to your .zip file -->
+                 <a href="pardus-pdf-editor-v0.1.0.zip" class="download-button">Download .zip (v0.1.0)</a>
+                 <!-- Link to your .tar.xz file -->
+                 <a href="pardus-pdf-editor-v0.1.0.tar.xz" class="download-button">Download .tar.xz (v0.1.0)</a>
+                 <!-- Link to your GitHub repository -->
+                 <a href="https://github.com/YOUR_USERNAME/pardus-pdf-editor" target="_blank" class="download-button github-button">View Source on GitHub</a>
+            </div>
+             <p style="text-align: center; margin-top: 15px;">
+                 <small>(Replace download links, version numbers, and GitHub URL)</small>
+             </p>
+        </section>
+
+        <section id="run">
+             <h2>Dependencies & How to Run</h2>
+             <p>Since this is a source code distribution, you need to install the required libraries first.</p>
+
+            <div class="dependency-notes">
+                 <h3>Required Dependencies</h3>
+                <p>You will need the following installed on your system:</p>
+                <ul>
+                     <li><strong>Python 3</strong> (version 3.8 or newer recommended).</li>
+                     <li><strong>GTK4 and LibAdwaita 1 GObject Introspection bindings</strong> (<code>gir1.2-gtk-4.0</code>, <code>gir1.2-adw-1</code> on Debian/Ubuntu).</li>
+                     <li><strong>Python GObject bindings</strong> (<code>python3-gi</code>, <code>python3-gi-cairo</code> on Debian/Ubuntu).</li>
+                     <li><strong>Python NumPy library</strong> (<code>python3-numpy</code> on Debian/Ubuntu, or via pip).</li>
+                     <li><strong>Python PyMuPDF library</strong> (<code>python3-pymupdf</code> via pip - <strong>recommended installation method</strong>).</li>
+                     <li><strong>(Optional) LibreOffice</strong> for DOCX export (<code>libreoffice-common</code> or similar on Debian/Ubuntu).</li>
+                 </ul>
+                 <h4>Installation Example (Debian/Ubuntu/Pardus):</h4>
+                 <pre><code>sudo apt update
+# Install system libraries for GTK/Adwaita/GObject & optionally LibreOffice/NumPy
+sudo apt install python3 python3-pip python3-gi python3-gi-cairo gir1.2-gtk-4.0 gir1.2-adw-1 python3-numpy libreoffice-common
+
+# Install PyMuPDF using pip (recommended)
+sudo pip3 install pymupdf</code></pre>
+                  <p><small>Note: You might prefer installing Python libraries in a virtual environment instead of globally with <code>sudo pip3</code>.</small></p>
+            </div>
+
+            <div class="installation-notes">
+                <h3>Running from Source</h3>
+                 <p>1. Download either the <code>.zip</code> or <code>.tar.xz</code> archive and extract it.</p>
+                 <pre><code># Example for tar.xz
+tar -xf pardus-pdf-editor-v0.1.0.tar.xz
+cd pardus-pdf-editor-v0.1.0/ # Or the directory name created</code></pre>
+                  <pre><code># Example for zip
+unzip pardus-pdf-editor-v0.1.0.zip
+cd pardus-pdf-editor-v0.1.0/ # Or the directory name created</code></pre>
+
+                <p>2. Make sure all dependencies listed above are installed.</p>
+                <p>3. Navigate into the extracted directory in your terminal.</p>
+                <p>4. Run the application using the main script:</p>
+                 <pre><code>python3 run-editor.py</code></pre>
+                <p>Or, if you made the script executable:</p>
+                <pre><code>chmod +x run-editor.py
+./run-editor.py</code></pre>
+            </div>
+        </section>
+
+
+        <footer>
+            <p>© 2024 Your Name / Project Name. Licensed under [Your License, e.g., MIT License].</p>
+            <!-- Replace Your Name/Project Name and License -->
+        </footer>
+    </div>
+</body>
+</html>
