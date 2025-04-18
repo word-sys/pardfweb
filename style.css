@@ -1,76 +1,104 @@
-/* Basic Reset */
+/* --- Reset & Global Styles --- */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
+:root {
+    /* Color Palette */
+    --bg-color: #1a1d24;       /* Dark background */
+    --card-bg-color: #242831;  /* Slightly lighter for cards/sections */
+    --text-color: #d1d5db;    /* Light gray text */
+    --heading-color: #ffffff; /* White for main headings */
+    --accent-color: #58a6ff;   /* A modern blue accent */
+    --accent-hover-color: #79c0ff; /* Lighter blue for hover */
+    --border-color: #30363d;   /* Subtle borders */
+    --code-bg-color: #161b22;   /* Very dark for code blocks */
+    --code-text-color: #c9d1d9; /* Text inside code blocks */
+    --link-color: var(--accent-color);
+    --danger-color: #f85149;    /* Red for warnings */
+
+    /* Typography */
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --line-height: 1.7;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    line-height: 1.6;
-    color: #333;
-    background-color: #f4f4f4;
-    padding: 20px;
+    font-family: var(--font-family);
+    line-height: var(--line-height);
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-.container {
+main {
+    flex-grow: 1;
     max-width: 900px;
-    margin: 30px auto;
-    background-color: #fff;
-    padding: 25px 40px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    width: 95%;
+    margin: 40px auto;
 }
 
+/* --- Header --- */
 header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     padding-bottom: 20px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border-color);
 }
 
 header h1 {
-    color: #2c3e50;
-    margin-bottom: 5px;
+    color: var(--heading-color);
+    margin-bottom: 8px;
+    font-size: 2.5em; /* Larger heading */
+    font-weight: 600;
 }
 
 header .subtitle {
-    color: #555;
-    font-size: 1.1em;
-    margin-bottom: 10px;
+    color: var(--text-color);
+    font-size: 1.2em;
+    margin-bottom: 15px;
 }
 
-header p {
-    color: #777;
+header p:not(.subtitle) {
+    color: #8b949e; /* Slightly dimmer meta text */
     font-size: 0.9em;
 }
 
+/* --- Sections --- */
 main section {
-    margin-bottom: 35px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #eee;
-}
-
-main section:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
+    background-color: var(--card-bg-color);
+    padding: 25px 30px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-color);
 }
 
 h2 {
-    color: #3498db; /* A blue accent color */
-    margin-bottom: 15px;
-    font-size: 1.6em;
-    border-bottom: 2px solid #ecf0f1;
-    padding-bottom: 5px;
+    color: var(--heading-color);
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    font-weight: 500;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
 }
 
 h3 {
-    color: #2980b9; /* Darker blue for subheadings */
-    margin-top: 20px;
-    margin-bottom: 10px;
-    font-size: 1.3em;
+    color: var(--accent-color);
+    margin-top: 25px;
+    margin-bottom: 15px;
+    font-size: 1.4em;
+    font-weight: 500;
 }
 
+/* --- Text Elements --- */
 p, ol, ul {
     margin-bottom: 15px;
 }
@@ -80,70 +108,127 @@ ol, ul {
 }
 
 li {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
-code {
-    background-color: #ecf0f1; /* Light gray background */
-    color: #2c3e50; /* Dark text */
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-    font-size: 0.9em;
+strong {
+    font-weight: 600;
+    color: var(--heading-color); /* Make strong text stand out more */
 }
 
-pre {
-    background-color: #ecf0f1;
-    padding: 15px;
-    border-radius: 5px;
-    overflow-x: auto; /* Handle long lines */
-    margin-top: 5px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
+/* --- Links & Buttons --- */
+a {
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
 }
 
-pre code {
-    background-color: transparent; /* Code inside pre doesn't need double background */
-    padding: 0;
-    border-radius: 0;
-    font-size: 0.95em;
-}
-
-.install-method {
-    margin-bottom: 25px;
-    padding: 15px;
-    background-color: #fdfdfd;
-    border: 1px solid #eee;
-    border-radius: 5px;
+a:hover {
+    color: var(--accent-hover-color);
+    text-decoration: underline;
 }
 
 .button {
     display: inline-block;
-    background-color: #3498db;
-    color: #fff;
-    padding: 10px 20px;
+    background-color: var(--accent-color);
+    color: #ffffff; /* White text on button */
+    padding: 12px 25px; /* Slightly larger padding */
     text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s ease;
     border: none;
     cursor: pointer;
-    margin-top: 5px;
+    margin-top: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .button:hover {
-    background-color: #2980b9;
+    background-color: var(--accent-hover-color);
+    text-decoration: none;
+    transform: translateY(-1px); /* Subtle lift effect */
+}
+
+.button:active {
+    transform: translateY(0px);
+}
+
+
+/* --- Code Blocks --- */
+code {
+    background-color: var(--code-bg-color);
+    color: var(--code-text-color);
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 0.9em;
+    border: 1px solid var(--border-color);
+}
+
+pre {
+    background-color: var(--code-bg-color);
+    padding: 15px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    font-size: 0.95em; /* Slightly larger code font */
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+}
+
+/* --- Specific Sections --- */
+.install-method {
+    margin-bottom: 25px;
+    padding-top: 15px;
+    border-top: 1px dashed var(--border-color); /* Separator inside install section */
+}
+.install-method:first-of-type {
+    border-top: none;
+    padding-top: 0;
 }
 
 #known-issues strong {
-    color: #c0392b; /* Reddish color for emphasis */
+    color: var(--danger-color); /* Use defined danger color */
 }
 
+#known-issues p {
+    background-color: rgba(248, 81, 73, 0.1); /* Subtle red background for warning paragraphs */
+    border-left: 3px solid var(--danger-color);
+    padding: 10px 15px;
+    border-radius: 4px;
+}
+
+/* --- Footer --- */
 footer {
     text-align: center;
     margin-top: 40px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-    color: #888;
+    padding: 25px 0;
+    border-top: 1px solid var(--border-color);
+    color: #8b949e; /* Dimmer footer text */
     font-size: 0.9em;
+}
+
+/* --- Responsive Adjustments (Optional Example) --- */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2em;
+    }
+    h2 {
+        font-size: 1.6em;
+    }
+    main section {
+        padding: 20px;
+    }
+    .button {
+        padding: 10px 18px;
+    }
 }
