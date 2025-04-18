@@ -8,24 +8,30 @@
 </head>
 <body>
     <header>
-        <h1>ParDF / Pardus PDF Düzenleyicisi</h1>
+        <h1>ParDF <span class="slash">/</span> Pardus PDF Düzenleyicisi</h1>
         <p class="subtitle">Linux için Basit PDF Metin Düzenleyici</p>
-        <p>Geliştirici: word-sys | Barın Güzeldemirci</p>
+        <p class="developer-info">Geliştirici: word-sys (Barın Güzeldemirci)</p>
     </header>
 
     <main>
         <section id="description">
             <h2>Hakkında</h2>
             <p>
-                #MilliTeknolojiHamlesi ve TEKNOFEST kapsamında PARDUS UYGULAMA GELİŞTİRME YARIŞMASI için üretilen ParDF, uzun zamandır eksikliği hissedilen PDF Düzenleyicisi sıfırdan Pardus için tekrardan yapılıyor.
-                Linux ortamında PDF dosyalarındaki metinleri düzenlemek için temel araçlar sunar.
+                Milli Teknoloji Hamlesi ve TEKNOFEST ruhuyla Pardus için geliştirilen ParDF, PDF dosyalarındaki metin içeriğini düzenlemek üzere tasarlanmış temel bir araçtır. Linux ortamında kullanıcı dostu bir deneyim sunmayı hedefler.
             </p>
         </section>
 
+        <!-- Release info will be loaded here by JavaScript -->
         <section id="release-info">
-            <h2>Son Sürüm: Release 1 (Latest)</h2>
-            <p>Uzun uğraşlar sonucunda ilk release'i çıkartmayı başardım, ancak mevcut hatalar olduğunu söylememiz lazım.</p>
-            <p><em>word-sys tarafından 2 hafta önce yayınlandı (Commit: 4fd8021)</em></p>
+            <!-- Title will be loaded -->
+            <h2>Son Sürüm: <span id="latest-release-title">Yükleniyor...</span></h2>
+             <!-- Info line will be loaded -->
+            <p><em id="latest-release-info">Sürüm bilgileri alınıyor...</em></p>
+            <!-- Release notes will be loaded -->
+            <div id="latest-release-notes">
+                <p>Notlar yükleniyor...</p>
+            </div>
+             <a id="release-page-link" href="https://github.com/word-sys/pardf/releases" class="button secondary" target="_blank" rel="noopener noreferrer">Tüm Sürümleri Gör</a>
         </section>
 
         <section id="installation">
@@ -33,60 +39,47 @@
 
             <div class="install-method">
                 <h3>Otomatik Kurulum (Önerilen)</h3>
-                <p>Aşağıdaki 'İndirmeler' bölümünden veya GitHub Releases sayfasından <code>pardus-pdf-editor_0.1.0-1_all.deb</code> dosyasını indirin.</p>
-                <p>Ardından terminali açıp, dosyanın indirildiği dizinde şu komutu çalıştırın:</p>
-                <pre><code>sudo apt install ./pardus-pdf-editor_0.1.0-1_all.deb</code></pre>
+                <p>Aşağıdaki 'İndirmeler' bölümünden veya <a id="release-page-link-install" href="https://github.com/word-sys/pardf/releases" target="_blank" rel="noopener noreferrer">GitHub Releases</a> sayfasından <code>_all.deb</code> uzantılı dosyayı indirin.</p>
+                <p>Ardından terminali açıp, dosyanın indirildiği dizinde şu komutu çalıştırın (örnek dosya adı kullanılmıştır, indirdiğiniz dosya adını yazın):</p>
+                <pre><code>sudo apt install ./pardus-pdf-editor_*.deb</code></pre>
                 <p>(Eğer bağımlılık hatası alırsanız, <code>sudo apt --fix-broken install</code> komutunu deneyin.)</p>
             </div>
 
-            <div class="install-method">
-                <h3>Manuel Kurulum</h3>
+            <div class="install-method manual">
+                <h3>Manuel Kurulum (Geliştiriciler İçin)</h3>
                 <ol>
-                    <li>GitHub Releases bölümünden son sürüm <code>.zip</code> veya <code>.tar.xz</code> dosyasını indirin.</li>
-                    <li>İndirdiğiniz arşivi (<code>.zip</code> veya <code>.tar.xz</code>) bir klasöre çıkartın.</li>
+                    <li><a href="https://github.com/word-sys/pardf/releases" target="_blank" rel="noopener noreferrer">GitHub Releases</a> bölümünden son sürüm kaynak kodunu (<code>.zip</code> veya <code>.tar.xz</code>) indirin.</li>
+                    <li>İndirdiğiniz arşivi bir klasöre çıkartın.</li>
                     <li>
-                        Sisteminizde gerekli paketlerin kurulu olduğundan emin olun. Terminal'e şu komutu yazarak kurabilirsiniz:
+                        Gerekli sistem bağımlılıklarını kurun:
                         <pre><code>sudo apt update
-sudo apt install python3-pip python3-venv python3-all-dev build-essential cmake libcairo2-dev libgirepository1.0-dev</code></pre>
-                        <p><em>(Not: <code>gir1.2-gtk-4.0</code>, <code>gir1.2-adw-1</code> gibi paketler genellikle masaüstü ortamıyla birlikte gelir, ancak eksikse kurulmalıdır.)</em></p>
+sudo apt install python3-gi python3-gi-cairo gir1.2-gtk-4.0 gir1.2-adw-1 python3-numpy python3-pip python3-venv python3-dev libcairo2-dev build-essential</code></pre>
                     </li>
-                    <li>Terminali, dosyaları çıkarttığınız klasörde açın.</li>
+                    <li>Terminali, kaynak kod dosyalarını çıkarttığınız klasörde açın.</li>
                     <li>
-                        Bir sanal ortam (virtual environment) oluşturun ve aktifleştirin:
+                        Sanal ortam oluşturup aktifleştirin:
                         <pre><code>python3 -m venv venv
 source venv/bin/activate</code></pre>
                     </li>
                     <li>
-                        Gerekli Python kütüphanelerini kurun:
-                        <pre><code>pip install PyMuPDF numpy</code></pre>
-                        <p><em>(Not: <code>python3-gi</code> ve <code>python3-gi-cairo</code> sistem paketleri aracılığıyla kurulduğu için burada pip ile kurulmaz.)</em></p>
+                        Gerekli Python kütüphanesini kurun (diğerleri sistemden geldi):
+                        <pre><code>pip install PyMuPDF</code></pre>
                     </li>
                     <li>
                         Uygulamayı çalıştırın:
                         <pre><code>python3 run-editor.py</code></pre>
                     </li>
                 </ol>
-                <p>TEBRİKLER UYGULAMAYI ÇALIŞTIRDINIZ!</p>
             </div>
         </section>
 
-        <section id="known-issues">
-            <h2>Bilinen Problemler! (MEVCUT HATALAR)</h2>
-            <p>
-                <strong>Kaydetme Butonu Hatası:</strong> PDF'i düzenlemeden sonra ana 'Kaydet' butonu şu anda düzgün çalışmıyor ve hata verebiliyor. Bu sorunu düzeltmek için çalışıyoruz.
-            </p>
-            <p>
-                <strong>Geçici Çözüm:</strong> Dosyayı kaydetmek için lütfen üst menüdeki <strong>Seçenekler (3 Çizgi)</strong> bölümünden <strong>'PDF'i Dışa Aktar' (Export As PDF)</strong> seçeneğini kullanın. Bu yöntemle düzenlenmiş PDF'inizi kaydedebilirsiniz.
-            </p>
-        </section>
+        <!-- Removed Known Issues section -->
 
         <section id="downloads">
-            <h2>Şimdi Deneyebilirsiniz! (İndirmeler)</h2>
-            <p>En son sürümü ve kurulum dosyalarını GitHub Releases sayfasından indirebilirsiniz.</p>
-            <a href="https://github.com/word-sys/pardf/releases/tag/RELEASE1" class="button" target="_blank" rel="noopener noreferrer">GitHub Releases Sayfasına Git</a>
-            <br><br>
-            <p>Veya doğrudan önerilen kurulum dosyasını indirin:</p>
-            <a href="https://github.com/word-sys/pardf/releases/download/RELEASE1/pardus-pdf-editor_0.1.0-1_all.deb" class="button">pardus-pdf-editor_0.1.0-1_all.deb İndir</a>
+            <h2>İndirmeler</h2>
+            <p>En son kararlı sürümü buradan doğrudan indirebilirsiniz:</p>
+             <!-- Link and text will be loaded -->
+            <a id="deb-download-link" href="#" class="button primary-download">Yükleniyor...</a>
         </section>
     </main>
 
@@ -94,5 +87,7 @@ source venv/bin/activate</code></pre>
         <p>© 2024 Barın Güzeldemirci (word-sys). Lisans: GPL-3.0-or-later.</p>
     </footer>
 
+    <!-- Link to the JavaScript file -->
+    <script src="script.js"></script>
 </body>
 </html>
