@@ -3,28 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pardus PDF Editor (ParPDF)</title>
+    <title>Pardus PDF Editor (ParDF)</title>
     <style>
+        :root {
+            --bg-color: #1e1e1e;
+            --text-color: #e0e0e0;
+            --section-bg-color: #2d2d2d;
+            --header-bg-color: #333; /* Darker header */
+            --accent-color: #4db6ac; /* Muted Teal */
+            --link-color: #64b5f6; /* Light Blue */
+            --border-color: #444;
+            --button-bg: #00695c; /* Darker Teal */
+            --button-hover-bg: #00796b;
+            --code-bg: #3a3a3a;
+            --note-bg: #423b1f; /* Dark Yellowish */
+            --note-border: #886d4a;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
+            background-color: var(--bg-color);
+            color: var(--text-color);
         }
         .container {
             max-width: 960px;
             margin: 20px auto;
             padding: 0 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background-color: var(--section-bg-color);
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
             border-radius: 8px;
         }
         header {
-            background-color: #5a8aad; /* A shade inspired by Pardus */
+            background-color: var(--header-bg-color);
             color: #fff;
-            padding: 20px 0;
+            padding: 25px 0;
             text-align: center;
             border-top-left-radius: 8px;
             border-top-right-radius: 8px;
@@ -36,48 +51,54 @@
         header p {
             margin-top: 5px;
             font-size: 1.1em;
+            color: #ccc; /* Slightly dimmer subtitle */
         }
-        nav { /* Optional simple nav */
+        nav {
             text-align: center;
-            padding: 10px 0;
-            background: #e9ecef;
+            padding: 12px 0;
+            background: #252525; /* Dark nav */
         }
         nav a {
             text-decoration: none;
-            color: #333;
-            padding: 5px 15px;
+            color: var(--link-color);
+            padding: 6px 15px;
             margin: 0 5px;
             border-radius: 4px;
             transition: background-color 0.3s ease;
         }
         nav a:hover, nav a.active {
-            background-color: #d0d5db;
+            background-color: #444;
         }
         section {
             padding: 25px 20px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border-color);
         }
         section:last-of-type {
             border-bottom: none;
         }
         h2 {
-            color: #5a8aad;
+            color: var(--accent-color);
             margin-top: 0;
-            border-bottom: 2px solid #e0e0e0;
+            border-bottom: 2px solid #444;
             padding-bottom: 5px;
             margin-bottom: 15px;
         }
+         h3 {
+             color: #bdbdbd; /* Lighter grey for H3 */
+             margin-top: 25px;
+         }
         .features-list li {
             margin-bottom: 10px;
-            list-style: none; /* Remove default bullets */
-            padding-left: 20px;
+            list-style: none;
+            padding-left: 25px;
             position: relative;
         }
         .features-list li::before {
-            content: '✔'; /* Custom bullet */
+            content: '✔';
             position: absolute;
             left: 0;
-            color: #28a745; /* Green checkmark */
+            color: #81c784; /* Light Green Checkmark */
+            font-size: 1.2em;
         }
         .screenshot {
             text-align: center;
@@ -86,16 +107,17 @@
         .screenshot img {
             max-width: 100%;
             height: auto;
-            border: 1px solid #ddd;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid #555; /* Darker border */
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.2);
             border-radius: 4px;
         }
         .download-area {
              text-align: center;
+             margin: 20px 0;
         }
         .download-button {
             display: inline-block;
-            background-color: #4CAF50;
+            background-color: var(--button-bg);
             color: white;
             padding: 12px 25px;
             text-align: center;
@@ -108,164 +130,190 @@
             margin: 10px 5px;
         }
         .download-button:hover {
-            background-color: #45a049;
+            background-color: var(--button-hover-bg);
         }
         .github-button {
-            background-color: #333;
-        }
-         .github-button:hover {
             background-color: #555;
         }
-        .dependency-notes, .installation-notes {
-            background-color: #fffbeb;
-            border: 1px solid #ffe58f;
-            padding: 15px;
+         .github-button:hover {
+            background-color: #666;
+        }
+        .installation-notes, .known-issues, .dependency-notes {
+            background-color: var(--note-bg);
+            border: 1px solid var(--note-border);
+            padding: 15px 20px;
             border-radius: 4px;
             margin-top: 20px;
+            color: #f5e6c4; /* Light text for notes */
         }
+         .known-issues h3 {
+             color: #ffcc80; /* Orange-ish for Known Issues title */
+             margin-top: 0;
+         }
         pre {
-            background-color: #eef;
-            border: 1px solid #ddd;
-            padding: 10px;
+            background-color: #282c34; /* Darker code background */
+            border: 1px solid #444;
+            padding: 15px;
             border-radius: 4px;
-            overflow-x: auto; /* Handle long lines */
+            overflow-x: auto;
+            color: #abb2bf; /* Light text in code blocks */
         }
         code {
-            font-family: "Courier New", Courier, monospace;
-            background-color: #eee; /* Simple background for inline code */
-            padding: 2px 4px;
+            font-family: "Fira Code", "Consolas", "Monaco", monospace;
+            background-color: var(--code-bg);
+            padding: 3px 6px;
             border-radius: 3px;
+            font-size: 0.95em;
         }
         pre code {
-             background-color: transparent; /* Don't double-background */
+             background-color: transparent;
              padding: 0;
+             font-size: 0.9em;
         }
         footer {
             text-align: center;
             padding: 20px;
             margin-top: 20px;
             font-size: 0.9em;
-            color: #777;
+            color: #aaa; /* Lighter footer text */
+            background-color: #252525; /* Match nav */
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        footer a {
+            color: var(--link-color);
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Pardus PDF Editor (ParPDF)</h1>
-            <p>Simple PDF Viewing and Text Editing for Linux</p>
+            <h1>Pardus PDF Editor / Pardus PDF Düzenleyicisi</h1>
+            <p>Linux PDF Editor - Built for Pardus</p>
         </header>
 
         <nav>
              <a href="#about">About</a>
              <a href="#features">Features</a>
-             <a href="#screenshot-sec">Screenshot</a>
+             <!-- <a href="#screenshot-sec">Screenshot</a> --> <!-- Can uncomment when you have one -->
              <a href="#download">Download</a>
-             <a href="#run">How to Run</a>
+             <a href="#install">How to Install & Run</a>
+             <a href="#issues">Known Issues</a>
         </nav>
 
         <section id="about">
-            <h2>About ParPDF</h2>
+            <h2>About ParDF</h2>
             <p>
-                Pardus PDF Editor is a straightforward desktop application built with GTK4 and Adwaita library, designed primarily for Linux distributions like Pardus, Ubuntu, Debian, and others.
+                ParDF is a Linux PDF Editor developed for the <strong>#MilliTeknolojiHamlesi</strong> and <strong>#TEKNOFEST PARDUS APPLICATION DEVELOPMENT</strong> initiatives. It was built from scratch to address a perceived long-standing need for a native PDF editor within the Pardus ecosystem, but works on other Linux distributions too.
             </p>
             <p>
-                It allows you to open and view PDF documents, select existing text blocks, modify their content, and even add new text elements to the page. While not a full-featured PDF editor, it focuses on making basic text alterations simple and accessible.
+                 Developed by <a href="https://github.com/word-sys" target="_blank" rel="noopener">word-sys</a> | Barın Güzeldemirci.
+            </p>
+            <p>
+                The goal is to provide essential PDF text editing capabilities in a straightforward desktop application using modern GTK4 and the LibAdwaita library.
             </p>
         </section>
 
         <section id="features">
-            <h2>Key Features</h2>
+            <h2>Key Features (Release 1)</h2>
             <ul class="features-list">
                 <li>View PDF documents page by page.</li>
-                <li>Thumbnail sidebar for easy page navigation.</li>
-                <li>Select and edit existing text blocks directly on the page.</li>
-                <li>Add new text blocks anywhere on the page.</li>
-                <li>Control font size and color for edited/added text.</li>
-                <li>Save changes back to the PDF (incrementally or as a new file).</li>
+                <li>Thumbnail sidebar for quick page navigation.</li>
+                <li>Select and edit existing text blocks.</li>
+                <li>Add new text blocks to a page.</li>
+                <li>Adjust font size and color for modified text.</li>
+                <li>Save changes (via Export function due to bug - see below).</li>
                 <li>Export document content as plain text (.txt).</li>
                 <li>Export document as DOCX (requires LibreOffice installed).</li>
-                <li>Modern GTK4/Libadwaita interface.</li>
             </ul>
         </section>
 
+        <!-- Screenshot Section (Optional) -->
+        <!--
         <section id="screenshot-sec">
              <h2>Screenshot</h2>
              <p>See ParPDF in action:</p>
              <div class="screenshot">
-                <!-- Replace 'parpdf_screenshot.png' with the actual path/URL to your screenshot -->
                 <img src="parpdf_screenshot.png" alt="Pardus PDF Editor Screenshot">
-                <p><small><em>(Replace this placeholder image with an actual screenshot)</em></small></p>
+                <p><small><em>(Add screenshot image here)</em></small></p>
             </div>
         </section>
+        -->
 
         <section id="download">
-            <h2>Download Source Code</h2>
+            <h2>Download ParDF Release 1</h2>
             <p>
-                Download the latest source code archive. You will need Python 3 and several dependencies installed to run it (see below).
+                Download the source code archive for the first release. Follow the instructions below to install dependencies and run the application.
             </p>
             <div class="download-area">
-                 <!-- Link to your .zip file -->
-                 <a href="pardus-pdf-editor-v0.1.0.zip" class="download-button">Download .zip (v0.1.0)</a>
-                 <!-- Link to your .tar.xz file -->
-                 <a href="pardus-pdf-editor-v0.1.0.tar.xz" class="download-button">Download .tar.xz (v0.1.0)</a>
-                 <!-- Link to your GitHub repository -->
-                 <a href="https://github.com/YOUR_USERNAME/pardus-pdf-editor" target="_blank" class="download-button github-button">View Source on GitHub</a>
+                 <!-- Links based on your release assets -->
+                 <a href="https://github.com/word-sys/pardf/releases/download/RELEASE1/pardf-main.tar.xz" class="download-button">Download .tar.xz</a>
+                 <a href="https://github.com/word-sys/pardf/releases/download/RELEASE1/pardf-main.zip" class="download-button">Download .zip</a>
+                 <!-- Link to your GitHub repository releases page -->
+                 <a href="https://github.com/word-sys/pardf/releases" target="_blank" class="download-button github-button">View All Releases on GitHub</a>
             </div>
-             <p style="text-align: center; margin-top: 15px;">
-                 <small>(Replace download links, version numbers, and GitHub URL)</small>
-             </p>
         </section>
 
-        <section id="run">
-             <h2>Dependencies & How to Run</h2>
-             <p>Since this is a source code distribution, you need to install the required libraries first.</p>
+        <section id="install">
+             <h2>How to Install & Run (From Source)</h2>
+             <p>As this is distributed as source code, you need to set up the environment first.</p>
 
-            <div class="dependency-notes">
-                 <h3>Required Dependencies</h3>
-                <p>You will need the following installed on your system:</p>
-                <ul>
-                     <li><strong>Python 3</strong> (version 3.8 or newer recommended).</li>
-                     <li><strong>GTK4 and LibAdwaita 1 GObject Introspection bindings</strong> (<code>gir1.2-gtk-4.0</code>, <code>gir1.2-adw-1</code> on Debian/Ubuntu).</li>
-                     <li><strong>Python GObject bindings</strong> (<code>python3-gi</code>, <code>python3-gi-cairo</code> on Debian/Ubuntu).</li>
-                     <li><strong>Python NumPy library</strong> (<code>python3-numpy</code> on Debian/Ubuntu, or via pip).</li>
-                     <li><strong>Python PyMuPDF library</strong> (<code>python3-pymupdf</code> via pip - <strong>recommended installation method</strong>).</li>
-                     <li><strong>(Optional) LibreOffice</strong> for DOCX export (<code>libreoffice-common</code> or similar on Debian/Ubuntu).</li>
-                 </ul>
-                 <h4>Installation Example (Debian/Ubuntu/Pardus):</h4>
-                 <pre><code>sudo apt update
-# Install system libraries for GTK/Adwaita/GObject & optionally LibreOffice/NumPy
-sudo apt install python3 python3-pip python3-gi python3-gi-cairo gir1.2-gtk-4.0 gir1.2-adw-1 python3-numpy libreoffice-common
+             <h3>1. Install System Dependencies</h3>
+             <p>Ensure you have the necessary system packages. On Debian, Ubuntu, or Pardus:</p>
+             <pre><code>sudo apt update
+sudo apt install python3-pip python3-venv python3-all-dev build-essential cmake libcairo2-dev libgirepository-2.0-dev python3-gi python3-gi-cairo gir1.2-gtk-4.0 gir1.2-adw-1</code></pre>
+              <p><small><em>(Note: <code>python3-gi</code>, <code>gir1.2-*</code> packages provide GTK/Adwaita support)</em></small></p>
 
-# Install PyMuPDF using pip (recommended)
-sudo pip3 install pymupdf</code></pre>
-                  <p><small>Note: You might prefer installing Python libraries in a virtual environment instead of globally with <code>sudo pip3</code>.</small></p>
-            </div>
-
-            <div class="installation-notes">
-                <h3>Running from Source</h3>
-                 <p>1. Download either the <code>.zip</code> or <code>.tar.xz</code> archive and extract it.</p>
+             <h3>2. Download and Extract</h3>
+             <p>Download the <code>.tar.xz</code> or <code>.zip</code> archive from the <a href="#download">Download section</a> and extract it.</p>
                  <pre><code># Example for tar.xz
-tar -xf pardus-pdf-editor-v0.1.0.tar.xz
-cd pardus-pdf-editor-v0.1.0/ # Or the directory name created</code></pre>
+tar -xf pardf-main.tar.xz
+cd pardf-main/</code></pre>
                   <pre><code># Example for zip
-unzip pardus-pdf-editor-v0.1.0.zip
-cd pardus-pdf-editor-v0.1.0/ # Or the directory name created</code></pre>
+unzip pardf-main.zip
+cd pardf-main/</code></pre>
+             <p>(Adjust <code>cd pardf-main/</code> if the extracted folder has a different name).</p>
 
-                <p>2. Make sure all dependencies listed above are installed.</p>
-                <p>3. Navigate into the extracted directory in your terminal.</p>
-                <p>4. Run the application using the main script:</p>
-                 <pre><code>python3 run-editor.py</code></pre>
-                <p>Or, if you made the script executable:</p>
-                <pre><code>chmod +x run-editor.py
-./run-editor.py</code></pre>
-            </div>
+             <h3>3. Set up Python Environment & Install Libraries</h3>
+             <p>It's highly recommended to use a Python virtual environment:</p>
+             <pre><code class="language-bash"># Navigate into the extracted project directory (if not already there)
+# cd pardf-main/
+
+# Create a virtual environment named 'venv'
+python3 -m venv venv
+
+# Activate the virtual environment
+source venv/bin/activate
+
+# Install required Python packages using pip
+pip install pygobject pillow pymupdf numpy</code></pre>
+              <p><small>(Remember to activate the environment with <code>source venv/bin/activate</code> every time you want to run ParDF from a new terminal).</small></p>
+
+             <h3>4. Run the Application</h3>
+             <p>While the virtual environment is active, run the editor:</p>
+             <pre><code>python3 run-editor.py</code></pre>
+             <p>Congratulations, the application should now be running!</p>
         </section>
 
+        <section id="issues">
+            <div class="known-issues">
+                 <h3>! Known Issues (Release 1) !</h3>
+                 <p>This is the first release and currently has a known bug:</p>
+                 <p>
+                     <strong>The main 'Save' button gives an error after editing a PDF.</strong>
+                     <br>
+                     Work is underway to fix this.
+                 </p>
+                 <p>
+                     <strong>Workaround:</strong> To save your changes, please use the application menu (☰ icon, often top-right) and select <strong>"Export As..." -> "PDF"</strong>. This will correctly save your modified document to a new file.
+                 </p>
+             </div>
+         </section>
 
         <footer>
-            <p>© 2024 Your Name / Project Name. Licensed under [Your License, e.g., MIT License].</p>
-            <!-- Replace Your Name/Project Name and License -->
+            <p>© 2024 <a href="https://github.com/word-sys" target="_blank" rel="noopener">word-sys</a> | Barın Güzeldemirci</p>
+            <!-- Consider adding your license here -->
+            <p>View Project on <a href="https://github.com/word-sys/pardf" target="_blank" rel="noopener">GitHub</a></p>
         </footer>
     </div>
 </body>
