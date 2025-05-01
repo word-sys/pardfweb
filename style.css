@@ -63,8 +63,8 @@ main {
 }
 
 @keyframes fadeInScale {
-    from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
-    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 .fade-in {
@@ -457,11 +457,12 @@ footer a:hover {
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
-    background-color: rgba(15, 18, 24, 0.9);
+    overflow: hidden;
+    background-color: rgba(15, 18, 24, 0.92);
     opacity: 0;
     transition: opacity var(--animation-speed) ease-in-out;
     cursor: pointer;
+    padding: 40px 20px;
 }
 
 .modal.visible {
@@ -469,15 +470,18 @@ footer a:hover {
     align-items: center;
     justify-content: center;
     opacity: 1;
+    overflow-y: auto;
 }
 
 .modal-content {
     margin: auto;
     display: block;
-    max-width: 90%;
-    max-height: 85%;
+    width: auto;
+    height: auto;
+    max-width: 95%;
+    max-height: 90%;
     cursor: default;
-    border-radius: 5px;
+    border-radius: 6px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     animation: fadeInScale var(--animation-speed) ease-out forwards;
     opacity: 0;
@@ -485,32 +489,40 @@ footer a:hover {
 }
 
 .modal-close-button {
-    position: absolute;
-    top: 20px;
-    right: 35px;
-    color: #ccc;
-    font-size: 45px;
+    position: fixed;
+    top: 15px;
+    right: 25px;
+    color: #aaa;
+    font-size: 40px;
     font-weight: bold;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, transform 0.3s ease;
     cursor: pointer;
     line-height: 1;
     z-index: calc(var(--modal-z-index) + 1);
+    background: rgba(0,0,0,0.3);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .modal-close-button:hover,
 .modal-close-button:focus {
     color: #fff;
     text-decoration: none;
+    transform: scale(1.1);
 }
 
 #modal-caption {
-    margin: 15px auto 0;
+    margin: 20px auto 0;
     display: block;
-    width: 80%;
-    max-width: 700px;
+    width: 90%;
+    max-width: 800px;
     text-align: center;
     color: #ccc;
-    font-size: 0.95rem;
+    font-size: 1rem;
     padding: 10px 0;
     cursor: default;
 }
@@ -530,7 +542,8 @@ footer a:hover {
     .button.primary-download { min-width: initial; padding: 12px 25px;}
     .screenshot-gallery { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
     .modal-content { max-width: 95%; max-height: 80%; }
-    .modal-close-button { top: 15px; right: 25px; font-size: 35px; }
+    .modal-close-button { top: 10px; right: 15px; font-size: 30px; width: 35px; height: 35px; }
+    #modal-caption { font-size: 0.9rem;}
 
 }
 
