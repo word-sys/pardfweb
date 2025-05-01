@@ -1,4 +1,3 @@
-// script.js
 document.addEventListener('DOMContentLoaded', () => {
     const repoOwner = 'word-sys';
     const repoName = 'pardf';
@@ -8,10 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const releaseInfoEl = document.getElementById('latest-release-info');
     const releaseNotesEl = document.getElementById('latest-release-notes');
     const debDownloadLinkEl = document.getElementById('deb-download-link');
-    // Get the SPAN inside the download button
     const debDownloadTextEl = document.getElementById('deb-download-text');
     const releasePageLinkEl = document.getElementById('release-page-link');
-    const releasePageLinkInstallEl = document.getElementById('release-page-link-install'); // Link in install section
+    const releasePageLinkInstallEl = document.getElementById('release-page-link-install');
     const downloadsSection = document.getElementById('downloads');
 
     fetch(apiUrl)
@@ -36,80 +34,65 @@ document.addEventListener('DOMContentLoaded', () => {
                  releasePageLinkInstallEl.href = releaseUrl;
             }
 
-
             const publishedDate = new Date(data.published_at);
             const timeAgo = getTimeAgo(publishedDate);
             releaseInfoEl.textContent = `Published ${timeAgo} (Tag: ${data.tag_name})`;
 
-            // --- Update Release Notes ---
-            // Slightly improved Markdown to HTML conversion
             let notesHtml = data.body || '';
-            // Convert headers (basic)
             notesHtml = notesHtml.replace(/^### (.*$)/gim, '<h4>$1</h4>');
             notesHtml = notesHtml.replace(/^## (.*$)/gim, '<h3>$1</h3>');
             notesHtml = notesHtml.replace(/^# (.*$)/gim, '<h2>$1</h2>');
-            // Convert bold/italic
-            notesHtml = notesHtml.replace(/\*\*\*(.*?)___\*\*\*/gim, '<b><i>$1</i></b>'); // Bold + Italic (mixed markers uncommon but possible)
+            notesHtml = notesHtml.replace(/\*\*\*(.*?)___\*\*\*/gim, '<b><i>$1</i></b>');
             notesHtml = notesHtml.replace(/___(.*?)___/gim, '<b><i>$1</i></b>');
              notesHtml = notesHtml.replace(/\*\*(.*?)\*\*/gim, '<b>$1</b>');
             notesHtml = notesHtml.replace(/__(.*?)__/gim, '<b>$1</b>');
              notesHtml = notesHtml.replace(/\*(.*?)\*/gim, '<i>$1</i>');
             notesHtml = notesHtml.replace(/_(.*?)_/gim, '<i>$1</i>');
-            // Convert links
             notesHtml = notesHtml.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
-            // Convert list items (very basic, doesn't handle nested)
             notesHtml = notesHtml.replace(/^\s*[\*\-\+] +(.*)/gm, '<li>$1</li>');
-            notesHtml = notesHtml.replace(/<\/li>\n?<li>/g, '</li><li>'); // Compact list items
-            // Wrap adjacent LIs in UL
+            notesHtml = notesHtml.replace(/<\/li>\n?<li>/g, '</li><li>');
             notesHtml = notesHtml.replace(/(<li>.*?<\/li>)/gs, (match) => {
-                 if (!match.includes('<ul') && match.includes('<li>')) { // Basic check to avoid nesting incorrectly
+                 if (!match.includes('<ul') && match.includes('<li>')) {
                      return `<ul>${match}</ul>`;
                  }
                  return match;
             });
-             // Convert paragraphs (handle consecutive newlines)
             notesHtml = notesHtml.split(/\n\s*\n/).map(paragraph => {
                  if (paragraph.trim().startsWith('<') || paragraph.trim() === '') {
-                      return paragraph; // Avoid wrapping already converted HTML or empty lines
+                      return paragraph;
                  }
-                 return `<p>${paragraph.trim().replace(/\n/g, '<br>')}</p>`; // Convert single newlines within para to <br>
+                 return `<p>${paragraph.trim().replace(/\n/g, '<br>')}</p>`;
             }).join('');
-            // Cleanup potentially empty tags created by splitting
             notesHtml = notesHtml.replace(/<p>\s*<\/p>/g, '').replace(/<ul>\s*<\/ul>/g, '');
-
 
             releaseNotesEl.innerHTML = notesHtml || '<p>No release notes provided.</p>';
 
-            // --- Find and Update .deb Download Link ---
             let debUrl = null;
-            let debName = 'pardus-pdf-editor_latest_all.deb'; // Default name
+            let debName = 'pardus-pdf-editor_latest_all.deb';
             if (data.assets && data.assets.length > 0) {
                 const debAsset = data.assets.find(asset => asset.name.endsWith('_all.deb'));
                 if (debAsset) {
                     debUrl = debAsset.browser_download_url;
                     debName = debAsset.name;
                     debDownloadLinkEl.href = debUrl;
-                    // Update only the text part of the button
                     debDownloadTextEl.textContent = `${debName} İndir`;
-                    downloadsSection.style.display = 'block'; // Ensure section is visible
-                    debDownloadLinkEl.classList.remove('disabled'); // Enable button appearance
+                    downloadsSection.style.display = 'block';
+                    debDownloadLinkEl.classList.remove('disabled');
                 }
             }
 
-            // Handle case where .deb is not found
             if (!debUrl) {
                  debDownloadTextEl.textContent = '.deb dosyası bulunamadı';
-                 debDownloadLinkEl.href = '#'; // Keep disabled href
-                 debDownloadLinkEl.classList.add('disabled'); // Visually disable button
+                 debDownloadLinkEl.href = '#'; 
+                 debDownloadLinkEl.classList.add('disabled');
                  debDownloadLinkEl.onclick = (e) => e.preventDefault();
-                 downloadsSection.style.display = 'block'; // Still show section, but with disabled btn
+                 downloadsSection.style.display = 'block';
             }
 
-             // Add fade-in class after content is loaded (small delay for smoother effect)
             setTimeout(() => {
                 document.querySelectorAll('.fade-in').forEach(el => el.style.opacity = 1);
                 document.querySelectorAll('.screenshot-gallery figure').forEach(el => el.style.opacity = 1);
-            }, 50); // Small delay
+            }, 50); 
 
         })
         .catch(error => {
@@ -117,14 +100,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (releaseTitleEl) releaseTitleEl.textContent = 'Son Sürüm Bilgisi Alınamadı';
             if (releaseInfoEl) releaseInfoEl.textContent = 'GitHub API\'sinden veri alınırken hata oluştu.';
              if (releaseNotesEl) releaseNotesEl.innerHTML = '<p>Sürüm notları yüklenirken hata oluştu.</p>';
-             if (downloadsSection) downloadsSection.style.display = 'block'; // Show section but button will be disabled
+             if (downloadsSection) downloadsSection.style.display = 'block';
             if (debDownloadTextEl) debDownloadTextEl.textContent = 'İndirme Hatası';
             if(debDownloadLinkEl) debDownloadLinkEl.classList.add('disabled');
 
 
         });
 
-    // --- Helper function for relative time ---
     function getTimeAgo(date) {
         const seconds = Math.floor((new Date() - date) / 1000);
         if (seconds < 5) return "az önce";
