@@ -4,90 +4,111 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ParDF - Pardus PDF Düzenleyicisi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
-    <header>
-        <h1>ParDF <span class="slash">/</span> Pardus PDF Düzenleyicisi</h1>
-        <p class="subtitle">Linux için Basit PDF Metin Düzenleyici</p>
-        <p class="developer-info">Geliştirici: word-sys (Barın Güzeldemirci)</p>
-    </header>
+    <div class="page-wrapper">
+        <header>
+            <!-- <img src="img/pardf-logo.svg" alt="ParDF Logo" class="logo"> -->
+            <h1>ParDF <span class="slash">/</span> Pardus PDF Düzenleyicisi</h1>
+            <p class="subtitle">Linux için Açık Kaynak, Basit PDF Metin Düzenleyici</p>
+            <p class="developer-info">Geliştirici: <a href="https://github.com/word-sys" target="_blank" rel="noopener noreferrer">word-sys</a> (Barın Güzeldemirci)</p>
+        </header>
+        <main>
+            <section id="description" class="fade-in">
+                <h2>Hakkında</h2>
+                <p>
+                    Milli Teknoloji Hamlesi ve TEKNOFEST ruhuyla Pardus için geliştirilen ParDF, PDF dosyalarındaki metin içeriğini doğrudan düzenlemenizi sağlayan temel bir araçtır. Kullanıcı dostu arayüzü ile Linux ortamında PDF düzenlemeyi kolaylaştırmayı hedefler.
+                </p>
+                 <p><strong>Temel Özellikler:</strong> PDF açma/görüntüleme, mevcut metin bloklarını seçme ve düzenleme, yeni metin ekleme, temel metin formatlama (font, boyut, renk - *yeni metinler için*), PDF olarak kaydetme, DOCX/TXT formatında dışa aktarma.</p>
+            </section>
+             <section id="screenshots" class="fade-in">
+                 <h2>Ekran Görüntüleri</h2>
+                 <div class="screenshot-gallery">
+                     <figure>
+                         <img src="img/screenshot-empty.png" alt="ParDF boş başlangıç ekranı" loading="lazy">
+                         <figcaption>Başlangıç Ekranı</figcaption>
+                     </figure>
+                     <figure>
+                         <img src="img/screenshot-open-dialog.png" alt="ParDF dosya açma penceresi" loading="lazy">
+                         <figcaption>Dosya Açma</figcaption>
+                     </figure>
+                      <figure>
+                         <img src="img/screenshot-edit-existing.png" alt="ParDF mevcut metni düzenleme" loading="lazy">
+                         <figcaption>Mevcut Metni Düzenle</figcaption>
+                     </figure>
+                      <figure>
+                         <img src="img/screenshot-add-text-popup.png" alt="ParDF yeni metin ekleme balonu" loading="lazy">
+                         <figcaption>Yeni Metin Ekleme</figcaption>
+                     </figure>
+                     <figure>
+                         <img src="img/screenshot-add-text-editing.png" alt="ParDF yeni metin kutusunu düzenleme" loading="lazy">
+                         <figcaption>Eklenen Metni Düzenle</figcaption>
+                     </figure>
+                 </div>
+             </section>
+            <section id="release-info" class="fade-in">
+                <h2>Son Sürüm: <span id="latest-release-title">Yükleniyor...</span></h2>
+                <p><em id="latest-release-info">Sürüm bilgileri alınıyor...</em></p>
+                <div id="latest-release-notes" class="release-notes-box">
+                    <p>Notlar yükleniyor...</p>
+                </div>
+                <a id="release-page-link" href="https://github.com/word-sys/pardf/releases" class="button secondary" target="_blank" rel="noopener noreferrer">Tüm Sürümleri Gör</a>
+            </section>
+            <section id="installation" class="fade-in">
+                <h2>Nasıl Kurulur?</h2>
 
-    <main>
-        <section id="description">
-            <h2>Hakkında</h2>
-            <p>
-                Milli Teknoloji Hamlesi ve TEKNOFEST ruhuyla Pardus için geliştirilen ParDF, PDF dosyalarındaki metin içeriğini düzenlemek üzere tasarlanmış temel bir araçtır. Linux ortamında kullanıcı dostu bir deneyim sunmayı hedefler.
-            </p>
-        </section>
-
-        <!-- Release info will be loaded here by JavaScript -->
-        <section id="release-info">
-            <!-- Title will be loaded -->
-            <h2>Son Sürüm: <span id="latest-release-title">Yükleniyor...</span></h2>
-             <!-- Info line will be loaded -->
-            <p><em id="latest-release-info">Sürüm bilgileri alınıyor...</em></p>
-            <!-- Release notes will be loaded -->
-            <div id="latest-release-notes">
-                <p>Notlar yükleniyor...</p>
-            </div>
-             <a id="release-page-link" href="https://github.com/word-sys/pardf/releases" class="button secondary" target="_blank" rel="noopener noreferrer">Tüm Sürümleri Gör</a>
-        </section>
-
-        <section id="installation">
-            <h2>Nasıl Kurulur?</h2>
-
-            <div class="install-method">
-                <h3>Otomatik Kurulum (Önerilen)</h3>
-                <p>Aşağıdaki 'İndirmeler' bölümünden veya <a id="release-page-link-install" href="https://github.com/word-sys/pardf/releases" target="_blank" rel="noopener noreferrer">GitHub Releases</a> sayfasından <code>_all.deb</code> uzantılı dosyayı indirin.</p>
-                <p>Ardından terminali açıp, dosyanın indirildiği dizinde şu komutu çalıştırın (örnek dosya adı kullanılmıştır, indirdiğiniz dosya adını yazın):</p>
-                <pre><code>sudo apt install ./pardus-pdf-editor_*.deb</code></pre>
-                <p>(Eğer bağımlılık hatası alırsanız, <code>sudo apt --fix-broken install</code> komutunu deneyin.)</p>
-            </div>
-
-            <div class="install-method manual">
-                <h3>Manuel Kurulum (Geliştiriciler İçin)</h3>
-                <ol>
-                    <li><a href="https://github.com/word-sys/pardf/releases" target="_blank" rel="noopener noreferrer">GitHub Releases</a> bölümünden son sürüm kaynak kodunu (<code>.zip</code> veya <code>.tar.xz</code>) indirin.</li>
-                    <li>İndirdiğiniz arşivi bir klasöre çıkartın.</li>
-                    <li>
-                        Gerekli sistem bağımlılıklarını kurun:
-                        <pre><code>sudo apt update
-sudo apt install python3-gi python3-gi-cairo gir1.2-gtk-4.0 gir1.2-adw-1 python3-numpy python3-pip python3-venv python3-dev libcairo2-dev build-essential</code></pre>
-                    </li>
-                    <li>Terminali, kaynak kod dosyalarını çıkarttığınız klasörde açın.</li>
-                    <li>
-                        Sanal ortam oluşturup aktifleştirin:
-                        <pre><code>python3 -m venv venv
+                <div class="install-method">
+                    <h3>Otomatik Kurulum (Önerilen)</h3>
+                    <p>Aşağıdaki 'İndirmeler' bölümünden veya <a id="release-page-link-install" href="https://github.com/word-sys/pardf/releases" target="_blank" rel="noopener noreferrer">GitHub Releases</a> sayfasından <code>_all.deb</code> uzantılı en son dosyayı indirin.</p>
+                    <p>Terminali açıp, dosyanın indirildiği dizinde şu komutu çalıştırın (Dosya adını indirdiğinizle değiştirin):</p>
+                    <pre><code>sudo apt install ./pardus-pdf-editor_*.deb</code></pre>
+                    <p>(Eğer bağımlılık hatası alırsanız, <code>sudo apt --fix-broken install</code> komutunu deneyin.)</p>
+                </div>
+                <div class="install-method manual">
+                    <h3>Manuel Kurulum (Geliştiriciler İçin)</h3>
+                    <ol>
+                        <li><a href="https://github.com/word-sys/pardf/releases" target="_blank" rel="noopener noreferrer">GitHub Releases</a> bölümünden son sürüm kaynak kodunu (<code>.zip</code> veya <code>.tar.xz</code>) indirin ve bir klasöre çıkartın.</li>
+                        <li>
+                            Gerekli sistem bağımlılıklarını kurun:
+                            <pre><code>sudo apt update && sudo apt install python3-gi python3-gi-cairo gir1.2-gtk-4.0 gir1.2-adw-1 python3-numpy python3-pip python3-venv python3-dev libcairo2-dev build-essential libreoffice-common fonts-dejavu-core</code></pre>
+                            <small><i>(<code>libreoffice-common</code> DOCX dışa aktarma, <code>fonts-dejavu-core</code> yazı tipi desteği için önerilir.)</i></small>
+                        </li>
+                        <li>Terminali, kaynak kod dosyalarını çıkarttığınız klasörde açın.</li>
+                        <li>
+                            Sanal ortam oluşturup aktifleştirin:
+                            <pre><code class="language-bash">python3 -m venv venv
 source venv/bin/activate</code></pre>
-                    </li>
-                    <li>
-                        Gerekli Python kütüphanesini kurun (diğerleri sistemden geldi):
-                        <pre><code>pip install PyMuPDF</code></pre>
-                    </li>
-                    <li>
-                        Uygulamayı çalıştırın:
-                        <pre><code>python3 run-editor.py</code></pre>
-                    </li>
-                </ol>
-            </div>
-        </section>
-
-        <!-- Removed Known Issues section -->
-
-        <section id="downloads">
-            <h2>İndirmeler</h2>
-            <p>En son kararlı sürümü buradan doğrudan indirebilirsiniz:</p>
-             <!-- Link and text will be loaded -->
-            <a id="deb-download-link" href="#" class="button primary-download">Yükleniyor...</a>
-        </section>
-    </main>
-
+                        </li>
+                        <li>
+                            Gerekli Python kütüphanesini kurun:
+                            <pre><code class="language-bash">pip install wheel PyMuPDF</code></pre>
+                             <small><i>(<code>wheel</code> PyMuPDF kurulumu için gerekebilir.)</i></small>
+                        </li>
+                        <li>
+                            Uygulamayı çalıştırın:
+                            <pre><code class="language-bash">python3 run-editor.py</code></pre>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+            <section id="downloads" class="fade-in">
+                <h2>İndirmeler</h2>
+                <p>En son kararlı sürümü buradan doğrudan indirebilirsiniz:</p>
+                <a id="deb-download-link" href="#" class="button primary-download">
+                    <span class="icon">⬇️</span> <span id="deb-download-text">Yükleniyor...</span>
+                </a>
+            </section>
+        </main>
+    </div>
     <footer>
-        <p>© 2024 Barın Güzeldemirci (word-sys). Lisans: GPL-3.0-or-later.</p>
+        <p>© 2024 Barın Güzeldemirci (word-sys). Kod <a href="https://github.com/word-sys/pardf/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">GPL-3.0 Lisansı</a> altında yayınlanmıştır.</p>
+         <p><a href="https://github.com/word-sys/pardf" target="_blank" rel="noopener noreferrer">GitHub'da Görüntüle</a></p>
     </footer>
-
-    <!-- Link to the JavaScript file -->
     <script src="script.js"></script>
 </body>
 </html>
