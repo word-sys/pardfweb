@@ -5,23 +5,25 @@
 }
 
 :root {
-    --bg-color: #1a1d24;
-    --card-bg-color: #242831;
-    --text-color: #d1d5db;
-    --heading-color: #ffffff;
+    --bg-color: #161b22;
+    --card-bg-color: #1f242c;
+    --text-color: #c9d1d9;
+    --heading-color: #f0f6fc;
     --accent-color: #4a90e2;
-    --accent-hover-color: #63a4ff; 
+    --accent-hover-color: #63a4ff;
     --border-color: #3a404a;
-    --code-bg-color: #0f1218; 
+    --code-bg-color: #0f1218;
     --code-text-color: #c9d1d9;
     --link-color: var(--accent-color);
-    --subtle-text-color: #848d97; 
-    --gradient-start: #2a2f38; 
+    --subtle-text-color: #848d97;
+    --gradient-start: #2a2f38;
     --gradient-end: var(--card-bg-color);
 
     --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-    --line-height: 1.75; 
+    --line-height: 1.75;
     --font-size: 16px;
+    --modal-z-index: 1000;
+    --animation-speed: 0.3s;
 }
 
 html {
@@ -37,8 +39,12 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    overflow-x: hidden; 
+    overflow-x: hidden;
 }
+body.modal-open {
+    overflow: hidden;
+}
+
 
 .page-wrapper {
      width: 100%;
@@ -46,15 +52,19 @@ body {
 
 main {
     flex-grow: 1;
-    max-width: 1000px; 
+    max-width: 1000px;
     width: 92%;
-    margin: 40px auto 60px; 
+    margin: 40px auto 60px;
 }
-
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(15px); }
     to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInScale {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
 .fade-in {
@@ -62,24 +72,21 @@ main {
     opacity: 0;
 }
 
-
 main section:nth-child(1) { animation-delay: 0.1s; }
 main section:nth-child(2) { animation-delay: 0.2s; }
-main section:nth-child(3) { animation-delay: 0.3s; }
-main section:nth-child(4) { animation-delay: 0.4s; }
-main section:nth-child(5) { animation-delay: 0.5s; } 
-
-
+main section:nth-child(3) { animation-delay: 0.25s; }
+main section:nth-child(4) { animation-delay: 0.3s; }
+main section:nth-child(5) { animation-delay: 0.35s; }
 
 header {
     text-align: center;
     margin-bottom: 60px;
     padding: 40px 20px 35px;
     border-bottom: 1px solid var(--border-color);
-    background: linear-gradient(180deg, var(--gradient-start) 0%, var(--bg-color) 100%); 
+    background: linear-gradient(180deg, var(--gradient-start) 0%, var(--bg-color) 100%);
 }
 
-header .logo { 
+header .logo {
     max-height: 60px;
     margin-bottom: 15px;
 }
@@ -87,7 +94,7 @@ header .logo {
 header h1 {
     color: var(--heading-color);
     margin-bottom: 10px;
-    font-size: clamp(2rem, 6vw, 3rem); 
+    font-size: clamp(2rem, 6vw, 3rem);
     font-weight: 700;
     letter-spacing: -0.8px;
 }
@@ -112,7 +119,7 @@ header .developer-info {
 header .developer-info a {
     color: var(--subtle-text-color);
     text-decoration: underline;
-    text-decoration-color: rgba(139, 148, 158, 0.5); 
+    text-decoration-color: rgba(139, 148, 158, 0.5);
     transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 header .developer-info a:hover {
@@ -120,20 +127,21 @@ header .developer-info a:hover {
     text-decoration-color: var(--accent-hover-color);
 }
 
+
 main section {
     background-color: var(--card-bg-color);
     padding: 35px 40px;
-    margin-bottom: 40px; 
-    border-radius: 10px; 
+    margin-bottom: 40px;
+    border-radius: 10px;
     border: 1px solid var(--border-color);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25); 
-    overflow: hidden; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
 }
 
 h2 {
     color: var(--heading-color);
     margin-bottom: 25px;
-    font-size: clamp(1.7rem, 4vw, 2rem); 
+    font-size: clamp(1.7rem, 4vw, 2rem);
     font-weight: 600;
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 15px;
@@ -148,9 +156,8 @@ h3 {
     font-weight: 600;
 }
 
-
 p, ol, ul {
-    margin-bottom: 1.2rem; 
+    margin-bottom: 1.2rem;
     font-size: 1rem;
     font-weight: 400;
 }
@@ -166,7 +173,7 @@ main ul:last-child {
 small {
     font-size: 0.85em;
     color: var(--subtle-text-color);
-    display: block; 
+    display: block;
     margin-top: -10px;
     margin-bottom: 10px;
 }
@@ -188,7 +195,7 @@ strong {
 a {
     color: var(--link-color);
     text-decoration: none;
-    font-weight: 500; 
+    font-weight: 500;
     transition: color 0.2s ease, opacity 0.2s ease;
 }
 
@@ -202,19 +209,20 @@ a:hover {
     display: inline-block;
     background-color: var(--accent-color);
     color: #ffffff;
-    padding: 12px 30px; 
+    padding: 12px 30px;
     text-decoration: none;
-    border-radius: 8px; 
+    border-radius: 8px;
     font-weight: 600;
     font-size: 1rem;
     transition: background-color 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
-    border: none; 
+    border: none;
     cursor: pointer;
     margin-top: 10px;
-    margin-right: 10px; 
+    margin-right: 10px;
     text-align: center;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.1);
 }
+
 
 .button:hover {
     background-color: var(--accent-hover-color);
@@ -233,7 +241,7 @@ a:hover {
     color: var(--accent-color);
     border: 1px solid var(--accent-color);
     box-shadow: none;
-    margin-left: 10px; 
+    margin-left: 10px;
 }
 
 .button.secondary:hover {
@@ -259,13 +267,31 @@ a:hover {
 .button.primary-download:hover {
      background: linear-gradient(145deg, #8ac7ff, #67a7e0);
 }
+.button.primary-download.disabled {
+     background: var(--subtle-text-color);
+     cursor: not-allowed;
+     opacity: 0.6;
+     box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+     transform: none;
+}
+.button.primary-download.disabled:hover {
+     background: var(--subtle-text-color);
+     transform: none;
+     box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
 
 .button .icon {
     margin-right: 8px;
     font-size: 1.1em;
+    display: inline-block;
+    vertical-align: middle;
+}
+#deb-download-text {
+    vertical-align: middle;
 }
 
-code:not(pre > code) { 
+
+code:not(pre > code) {
     background-color: rgba(177, 186, 196, 0.15);
     color: var(--code-text-color);
     padding: 0.2em 0.5em;
@@ -321,27 +347,35 @@ pre code {
     border: 1px solid var(--border-color);
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    opacity: 0; 
+    opacity: 0;
     animation: fadeIn 0.5s ease-out forwards;
+    position: relative;
 }
+
 .screenshot-gallery figure:nth-child(1) { animation-delay: 0.1s; }
 .screenshot-gallery figure:nth-child(2) { animation-delay: 0.2s; }
 .screenshot-gallery figure:nth-child(3) { animation-delay: 0.3s; }
 .screenshot-gallery figure:nth-child(4) { animation-delay: 0.4s; }
 .screenshot-gallery figure:nth-child(5) { animation-delay: 0.5s; }
 
+
 .screenshot-gallery figure:hover {
-    transform: scale(1.03);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
-.screenshot-gallery img {
+.screenshot-gallery img.gallery-image {
     display: block;
     width: 100%;
-    height: auto; 
-    aspect-ratio: 16 / 10; 
-    object-fit: cover; 
+    height: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
     border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+.screenshot-gallery img.gallery-image:hover {
+    opacity: 0.85;
 }
 
 .screenshot-gallery figcaption {
@@ -359,17 +393,17 @@ pre code {
 }
 .install-method:not(:first-child) {
      border-top: 1px dashed var(--border-color);
-     margin-top: 30px; 
+     margin-top: 30px;
 }
 
 .release-notes-box {
-     margin-top: 25px; 
+     margin-top: 25px;
      margin-bottom: 20px;
      padding: 20px 25px;
-     background-color: rgba(0,0,0,0.15); 
+     background-color: rgba(0,0,0,0.15);
      border-radius: 8px;
      border: 1px solid var(--border-color);
-     font-size: 0.95rem; 
+     font-size: 0.95rem;
      line-height: 1.65;
 }
 
@@ -414,15 +448,90 @@ footer a:hover {
     color: var(--accent-hover-color);
 }
 
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: var(--modal-z-index);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(15, 18, 24, 0.9);
+    opacity: 0;
+    transition: opacity var(--animation-speed) ease-in-out;
+    cursor: pointer;
+}
+
+.modal.visible {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 85%;
+    cursor: default;
+    border-radius: 5px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    animation: fadeInScale var(--animation-speed) ease-out forwards;
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+.modal-close-button {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #ccc;
+    font-size: 45px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+    cursor: pointer;
+    line-height: 1;
+    z-index: calc(var(--modal-z-index) + 1);
+}
+
+.modal-close-button:hover,
+.modal-close-button:focus {
+    color: #fff;
+    text-decoration: none;
+}
+
+#modal-caption {
+    margin: 15px auto 0;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    font-size: 0.95rem;
+    padding: 10px 0;
+    cursor: default;
+}
+
+.modal.visible .modal-content {
+   opacity: 1;
+}
+
+
 @media (max-width: 768px) {
     html { font-size: 15px; }
     main { width: 94%; }
-    header h1 { font-size: 2.4rem; }
+    header h1 { font-size: 2.2rem; }
     h2 { font-size: 1.8rem; }
     main section { padding: 30px 25px; }
     .button { padding: 11px 22px; margin-right: 5px;}
     .button.primary-download { min-width: initial; padding: 12px 25px;}
     .screenshot-gallery { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+    .modal-content { max-width: 95%; max-height: 80%; }
+    .modal-close-button { top: 15px; right: 25px; font-size: 35px; }
+
 }
 
 @media (max-width: 480px) {
@@ -432,4 +541,6 @@ footer a:hover {
      .button { width: 100%; margin-bottom: 10px; margin-right: 0;}
      .button.secondary { margin-left: 0; }
      .screenshot-gallery { grid-template-columns: 1fr; }
+     .modal-content { max-width: 98%; max-height: 75%; }
+
 }
