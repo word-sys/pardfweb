@@ -13,11 +13,11 @@
 <body>
     <div class="page-wrapper">
         <header>
-            <!-- <img src="img/pardf-logo.svg" alt="ParDF Logo" class="logo"> -->
             <h1>ParDF <span class="slash">/</span> Pardus PDF Düzenleyicisi</h1>
             <p class="subtitle">Linux için Açık Kaynak, Basit PDF Metin Düzenleyici</p>
             <p class="developer-info">Geliştirici: <a href="https://github.com/word-sys" target="_blank" rel="noopener noreferrer">word-sys</a> (Barın Güzeldemirci)</p>
         </header>
+
         <main>
             <section id="description" class="fade-in">
                 <h2>Hakkında</h2>
@@ -26,31 +26,33 @@
                 </p>
                  <p><strong>Temel Özellikler:</strong> PDF açma/görüntüleme, mevcut metin bloklarını seçme ve düzenleme, yeni metin ekleme, temel metin formatlama (font, boyut, renk - *yeni metinler için*), PDF olarak kaydetme, DOCX/TXT formatında dışa aktarma.</p>
             </section>
+
              <section id="screenshots" class="fade-in">
                  <h2>Ekran Görüntüleri</h2>
                  <div class="screenshot-gallery">
                      <figure>
-                         <img src="img/screenshot-empty.png" alt="ParDF boş başlangıç ekranı" loading="lazy">
+                         <img src="img/screenshot-empty.png" alt="ParDF boş başlangıç ekranı" loading="lazy" class="gallery-image">
                          <figcaption>Başlangıç Ekranı</figcaption>
                      </figure>
                      <figure>
-                         <img src="img/screenshot-open-dialog.png" alt="ParDF dosya açma penceresi" loading="lazy">
+                         <img src="img/screenshot-open-dialog.png" alt="ParDF dosya açma penceresi" loading="lazy" class="gallery-image">
                          <figcaption>Dosya Açma</figcaption>
                      </figure>
                       <figure>
-                         <img src="img/screenshot-edit-existing.png" alt="ParDF mevcut metni düzenleme" loading="lazy">
+                         <img src="img/screenshot-edit-existing.png" alt="ParDF mevcut metni düzenleme" loading="lazy" class="gallery-image">
                          <figcaption>Mevcut Metni Düzenle</figcaption>
                      </figure>
                       <figure>
-                         <img src="img/screenshot-add-text-popup.png" alt="ParDF yeni metin ekleme balonu" loading="lazy">
+                         <img src="img/screenshot-add-text-popup.png" alt="ParDF yeni metin ekleme balonu" loading="lazy" class="gallery-image">
                          <figcaption>Yeni Metin Ekleme</figcaption>
                      </figure>
                      <figure>
-                         <img src="img/screenshot-add-text-editing.png" alt="ParDF yeni metin kutusunu düzenleme" loading="lazy">
+                         <img src="img/screenshot-add-text-editing.png" alt="ParDF yeni metin kutusunu düzenleme" loading="lazy" class="gallery-image">
                          <figcaption>Eklenen Metni Düzenle</figcaption>
                      </figure>
                  </div>
              </section>
+
             <section id="release-info" class="fade-in">
                 <h2>Son Sürüm: <span id="latest-release-title">Yükleniyor...</span></h2>
                 <p><em id="latest-release-info">Sürüm bilgileri alınıyor...</em></p>
@@ -59,6 +61,7 @@
                 </div>
                 <a id="release-page-link" href="https://github.com/word-sys/pardf/releases" class="button secondary" target="_blank" rel="noopener noreferrer">Tüm Sürümleri Gör</a>
             </section>
+
             <section id="installation" class="fade-in">
                 <h2>Nasıl Kurulur?</h2>
 
@@ -69,6 +72,7 @@
                     <pre><code>sudo apt install ./pardus-pdf-editor_*.deb</code></pre>
                     <p>(Eğer bağımlılık hatası alırsanız, <code>sudo apt --fix-broken install</code> komutunu deneyin.)</p>
                 </div>
+
                 <div class="install-method manual">
                     <h3>Manuel Kurulum (Geliştiriciler İçin)</h3>
                     <ol>
@@ -96,6 +100,7 @@ source venv/bin/activate</code></pre>
                     </ol>
                 </div>
             </section>
+
             <section id="downloads" class="fade-in">
                 <h2>İndirmeler</h2>
                 <p>En son kararlı sürümü buradan doğrudan indirebilirsiniz:</p>
@@ -105,10 +110,18 @@ source venv/bin/activate</code></pre>
             </section>
         </main>
     </div>
+
+     <div id="image-modal" class="modal">
+        <span class="modal-close-button">×</span>
+        <img class="modal-content" id="modal-image">
+        <div id="modal-caption"></div>
+    </div>
+
     <footer>
         <p>© 2024 Barın Güzeldemirci (word-sys). Kod <a href="https://github.com/word-sys/pardf/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">GPL-3.0 Lisansı</a> altında yayınlanmıştır.</p>
          <p><a href="https://github.com/word-sys/pardf" target="_blank" rel="noopener noreferrer">GitHub'da Görüntüle</a></p>
     </footer>
+
     <script src="script.js"></script>
 </body>
 </html>
