@@ -12,174 +12,138 @@ document.addEventListener('DOMContentLoaded', () => {
     const releasePageLinkInstallEl = document.getElementById('release-page-link-install');
     const downloadsSection = document.getElementById('downloads');
 
-    const modal = document.getElementById('image-modal');
-    const modalImage = document.getElementById('modal-image');
-    const modalCaption = document.getElementById('modal-caption');
-    const closeModalButton = document.querySelector('.modal-close-button');
-    const gallery = document.querySelector('.screenshot-gallery');
-
-    function fetchReleaseData() {
-        fetch(apiUrl)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(handleReleaseData)
-            .catch(handleFetchError);
+    if (!releaseTitleEl || !releaseInfoEl || !releaseNotesEl || !debDownloadLinkEl || !releasePageLinkEl || !debDownloadTextEl) {
+        console.warn("One or more dynamic content elements are missing from the HTML.");
+        if (downloadsSection) downloadsSection.style.display = 'none';
+        return;
     }
 
-    function handleReleaseData(data) {
-        if (!data) {
-            throw new Error('No release data received');
-        }
-
-        const releaseUrl = data.html_url || `https://github.com/${repoOwner}/${repoName}/releases`;
-
-        releaseTitleEl.textContent = data.name || data.tag_name || 'Latest Release';
-        releasePageLinkEl.href = releaseUrl;
-        if (releasePageLinkInstallEl) {
-             releasePageLinkInstallEl.href = releaseUrl;
-        }
-
-        const publishedDate = new Date(data.published_at);
-        const timeAgo = getTimeAgo(publishedDate);
-        releaseInfoEl.textContent = `Published ${timeAgo} (Tag: ${data.tag_name})`;
-
-        let notesHtml = formatReleaseNotes(data.body);
-        releaseNotesEl.innerHTML = notesHtml || '<p>No release notes provided.</p>';
-
-        let debUrl = null;
-        let debName = 'pardus-pdf-editor_latest_all.deb';
-        if (data.assets && data.assets.length > 0) {
-            const debAsset = data.assets.find(asset => asset.name.endsWith('_all.deb'));
-            if (debAsset) {
-                debUrl = debAsset.browser_download_url;
-                debName = debAsset.name;
-                debDownloadLinkEl.href = debUrl;
-                debDownloadTextEl.textContent = `${debName} İndir`;
-                downloadsSection.style.display = 'block';
-                debDownloadLinkEl.classList.remove('disabled');
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-        }
+            return response.json();
+        })
+        .then(data => {
+            if (!data) {
+                 throw new Error('No release data received');
+            }
 
-        if (!debUrl) {
-            handleDebNotFound();
-        }
+            releaseTitleEl.textContent = data.name || data.tag_name || 'Latest Release';
+            releasePageLinkEl.href = data.html_url || `https://github.com/${repoOwner}/${repoName}/releases`;
+            if (releasePageLinkInstallEl) {
+                releasePageLinkInstallEl.href = data.html_url || `https://github.com/${repoOwner}/${repoName}/releases`;
+            }
 
-        triggerFadeInAnimations();
-    }
 
-    function handleFetchError(error) {
-        console.error('Error fetching latest release:', error);
-        if (releaseTitleEl) releaseTitleEl.textContent = 'Son Sürüm Bilgisi Alınamadı';
-        if (releaseInfoEl) releaseInfoEl.textContent = 'GitHub API\'sinden veri alınırken hata oluştu.';
-        if (releaseNotesEl) releaseNotesEl.innerHTML = '<p>Sürüm notları yüklenirken hata oluştu.</p>';
-        if (downloadsSection) downloadsSection.style.display = 'block';
-        handleDebNotFound();
-    }
+            const publishedDate = new Date(data.published_at);
+            const timeAgo = getTimeAgo(publishedDate);
+            releaseInfoEl.innerHTML = `Yayınlandı: ${timeAgo} • Etiket: <a href="${data.html_url}" target="_blank" rel="noopener noreferrer">${data.tag_name}</a>`;
 
-     function handleDebNotFound() {
-          if (debDownloadTextEl) debDownloadTextEl.textContent = '.deb dosyası bulunamadı';
-          if (debDownloadLinkEl) {
+            let notesHtml = data.body || '<p>Bu sürüm için not bulunmamaktadır.</p>';
+            notesHtml = notesHtml.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+            notesHtml = notesHtml.replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>').replace(/__([^_]+)__/g, '<strong>$1</strong>');
+            notesHtml = notesHtml.replace(/\*([^\*]+)\*/g, '<em>$1</em>').replace(/_([^_]+)_/g, '<em>$1</em>');
+            notesHtml = notesHtml.replace(/^###### (.*$)/gim, '<h6>$1</h6>');
+            notesHtml = notesHtml.replace(/^##### (.*$)/gim, '<h5>$1</h5>');
+            notesHtml = notesHtml.replace(/^#### (.*$)/gim, '<h4>$1</h4>');
+            notesHtml = notesHtml.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+            notesHtml = notesHtml.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+            notesHtml = notesHtml.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+            notesHtml = notesHtml.replace(/\r\n\r\n/g, '</p><p>').replace(/\n\n/g, '</p><p>');
+            notesHtml = notesHtml.replace(/\r\n/g, '<br>').replace(/\n/g, '<br>');
+            if (!notesHtml.match(/^<(p|h[1-6]|ul|ol|blockquote|pre|hr|table|div)/i)) {
+                notesHtml = `<p>${notesHtml}</p>`;
+            }
+            releaseNotesEl.innerHTML = notesHtml;
+
+            let debUrl = null;
+            let debAssetName = 'pardus-pdf-editor_latest_all.deb';
+            if (data.assets && data.assets.length > 0) {
+                const debAsset = data.assets.find(asset => asset.name.endsWith('_all.deb'));
+                if (debAsset) {
+                    debUrl = debAsset.browser_download_url;
+                    debAssetName = debAsset.name;
+                }
+            }
+
+            if (debUrl) {
+                debDownloadLinkEl.href = debUrl;
+                debDownloadTextEl.textContent = `${debAssetName} İndir`;
+                debDownloadLinkEl.classList.remove('disabled');
+                downloadsSection.style.display = 'block';
+            } else {
+                debDownloadTextEl.textContent = '.deb Dosyası Bulunamadı';
                 debDownloadLinkEl.href = '#';
                 debDownloadLinkEl.classList.add('disabled');
                 debDownloadLinkEl.onclick = (e) => e.preventDefault();
-           }
-     }
-
-     function triggerFadeInAnimations(){
-          setTimeout(() => {
-            document.querySelectorAll('.fade-in').forEach(el => el.style.opacity = 1);
-            document.querySelectorAll('.screenshot-gallery figure').forEach(el => el.style.opacity = 1);
-          }, 50);
-     }
-
-    function formatReleaseNotes(body) {
-         let notesHtml = body || '';
-         notesHtml = notesHtml.replace(/^### (.*$)/gim, '<h4>$1</h4>');
-         notesHtml = notesHtml.replace(/^## (.*$)/gim, '<h3>$1</h3>');
-         notesHtml = notesHtml.replace(/^# (.*$)/gim, '<h2>$1</h2>');
-         notesHtml = notesHtml.replace(/\*\*\*(.*?)___\*\*\*/gim, '<b><i>$1</i></b>');
-         notesHtml = notesHtml.replace(/___(.*?)___/gim, '<b><i>$1</i></b>');
-          notesHtml = notesHtml.replace(/\*\*(.*?)\*\*/gim, '<b>$1</b>');
-         notesHtml = notesHtml.replace(/__(.*?)__/gim, '<b>$1</b>');
-          notesHtml = notesHtml.replace(/\*(.*?)\*/gim, '<i>$1</i>');
-         notesHtml = notesHtml.replace(/_(.*?)_/gim, '<i>$1</i>');
-         notesHtml = notesHtml.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
-         notesHtml = notesHtml.replace(/^\s*[\*\-\+] +(.*)/gm, '<li>$1</li>');
-         notesHtml = notesHtml.replace(/<\/li>\n?<li>/g, '</li><li>');
-         notesHtml = notesHtml.replace(/(<li>.*?<\/li>)/gs, (match) => {
-              if (!match.includes('<ul') && match.includes('<li>')) {
-                  return `<ul>${match}</ul>`;
-              }
-              return match;
-         });
-          notesHtml = notesHtml.split(/\n\s*\n/).map(paragraph => {
-              if (paragraph.trim().startsWith('<') || paragraph.trim() === '') {
-                   return paragraph;
-              }
-              return `<p>${paragraph.trim().replace(/\n/g, '<br>')}</p>`;
-         }).join('');
-         notesHtml = notesHtml.replace(/<p>\s*<\/p>/g, '').replace(/<ul>\s*<\/ul>/g, '');
-         return notesHtml;
-    }
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching latest release:', error);
+            releaseTitleEl.textContent = 'Son Sürüm Alınamadı';
+            releaseInfoEl.textContent = 'GitHub API\'sinden veri alınırken bir hata oluştu.';
+            releaseNotesEl.innerHTML = '<p>Sürüm notları yüklenemedi.</p>';
+            debDownloadTextEl.textContent = 'İndirme Bağlantısı Alınamadı';
+            debDownloadLinkEl.classList.add('disabled');
+            debDownloadLinkEl.href = '#';
+            debDownloadLinkEl.onclick = (e) => e.preventDefault();
+            if (downloadsSection) downloadsSection.style.display = 'block';
+        });
 
     function getTimeAgo(date) {
         const seconds = Math.floor((new Date() - date) / 1000);
-        if (seconds < 5) return "az önce";
-        if (seconds < 60) return Math.floor(seconds) + " saniye önce";
-        const minutes = Math.floor(seconds / 60);
-        if (minutes < 60) return minutes + " dakika önce";
-        const hours = Math.floor(minutes / 60);
-        if (hours < 24) return hours + " saat önce";
-        const days = Math.floor(hours / 24);
-        if (days < 30) return days + " gün önce";
-        const months = Math.floor(days / 30);
-        if (months < 12) return months + " ay önce";
-        const years = Math.floor(days / 365);
-        return years + " yıl önce";
+        let interval = seconds / 31536000;
+        if (interval > 1) return Math.floor(interval) + " yıl önce";
+        interval = seconds / 2592000;
+        if (interval > 1) return Math.floor(interval) + " ay önce";
+        interval = seconds / 86400;
+        if (interval > 1) return Math.floor(interval) + " gün önce";
+        interval = seconds / 3600;
+        if (interval > 1) return Math.floor(interval) + " saat önce";
+        interval = seconds / 60;
+        if (interval > 1) return Math.floor(interval) + " dakika önce";
+        return (Math.floor(seconds) < 5 ? "az önce" : Math.floor(seconds) + " saniye önce");
     }
 
-    function openModal(imgElement) {
-        modalImage.src = imgElement.src;
-        modalCaption.textContent = imgElement.alt;
-        modal.classList.add('visible');
-        document.body.classList.add('modal-open');
-    }
+    // Image Modal Functionality
+    const modal = document.getElementById("image-modal");
+    const modalImg = document.getElementById("modal-image");
+    const captionText = document.getElementById("modal-caption");
+    const galleryImages = document.querySelectorAll(".gallery-image");
+    const closeBtn = document.querySelector(".modal-close-button");
 
-    function closeModal() {
-        modal.classList.remove('visible');
-        document.body.classList.remove('modal-open');
-        modalImage.src = "";
-    }
-
-    if (gallery) {
-        gallery.addEventListener('click', (event) => {
-            if (event.target.classList.contains('gallery-image')) {
-                openModal(event.target);
+    if (modal && modalImg && captionText && galleryImages.length > 0 && closeBtn) {
+        galleryImages.forEach(img => {
+            img.onclick = function(){
+                document.body.classList.add('modal-open');
+                modal.classList.add('visible');
+                modalImg.src = this.src;
+                modalImg.alt = this.alt;
+                captionText.innerHTML = this.alt;
             }
         });
-    }
 
-    if(closeModalButton) {
-        closeModalButton.addEventListener('click', closeModal);
-    }
+        function closeModal() {
+            modal.classList.remove('visible');
+            document.body.classList.remove('modal-open');
+        }
 
-    if(modal) {
-        modal.addEventListener('click', (event) => {
+        closeBtn.onclick = closeModal;
+
+        modal.onclick = function(event) {
             if (event.target === modal) {
                 closeModal();
             }
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape" && modal.classList.contains('visible')) {
+                closeModal();
+            }
         });
+    } else {
+        console.warn("Image modal elements not found. Modal functionality will be disabled.");
     }
-
-    document.addEventListener('keydown', (event) => {
-         if (event.key === 'Escape' && modal.classList.contains('visible')) {
-              closeModal();
-         }
-     });
-
-    fetchReleaseData();
 });
